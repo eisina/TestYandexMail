@@ -1,2 +1,6 @@
-package PACKAGE_NAME;public class YandexTest {
+public class YandexTest {
+
+    public void test(){
+        System.out.println();
+    }
 }
