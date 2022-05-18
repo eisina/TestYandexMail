@@ -1,56 +1,50 @@
+import Locators.Locators;
+import Managers.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import java.util.concurrent.TimeUnit;
+
+import static Utils.PauseUtils.pause;
 
 public class YandexTest {
 
     private WebDriver driver;
-    private WebDriverWait wait;
 
-    private final String PASSWORD = "test123test321";
+    private final String PASSWORD = "testik1234";
     private final String LOGIN = "katetestng";
-
-    @FindBy(xpath = "(//span[contains(text(),\"Log in\")]/ancestor::a)[1]")
-    WebElement loginButton;
-
-    @FindBy(xpath = "//input[@name='login']")
-    WebElement idField;
-
-    @FindBy(xpath = "(//span[contains(text(),\"Log in\")]/ancestor::button)[1]")
-    WebElement proceedButton;
-
-    @FindBy(xpath = "//input[@id='passp-field-passwd']")
-    WebElement passwordField;
-
-    @FindBy(xpath = "//div[@data-key=\"view=messages-list\"]")
-    WebElement personalInfoBlock;
-
 
     @BeforeMethod
     public void addSettings() {
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
-        PageFactory.initElements(driver, this);
+        driver = WebDriverManager.initDriver();
     }
 
     @Test
     public void loginTest() throws InterruptedException {
         driver.get("https://mail.yandex.com/");
+        WebElement loginButton = driver.findElement(Locators.LOGIN_BUTTON);
+        Assert.assertTrue(loginButton.isDisplayed(), "Start Page is not displayed");
+
         loginButton.click();
-        idField.sendKeys(LOGIN);
-        proceedButton.click();
-        Thread.sleep(1000);
+        WebElement loginField = driver.findElement(Locators.LOGIN_FIELD);
+        Assert.assertTrue(loginField.isDisplayed(), "Login Page is not displayed");
+
+        loginField.sendKeys(LOGIN);
+        driver.findElement(Locators.PROCEED_BUTTON).click();
+        pause(1);
+        WebElement passwordField = driver.findElement(Locators.PASSWORD_FIELD);
+        Assert.assertTrue(passwordField.isDisplayed(), "Page with Password Field is not displayed");
+
         passwordField.sendKeys(PASSWORD);
-        proceedButton.click();
-        Thread.sleep(5000);
-        Assert.assertTrue(personalInfoBlock.isDisplayed());
+        driver.findElement(Locators.PROCEED_BUTTON).click();
+        pause(3);
+        Assert.assertTrue(driver.findElement(Locators.MESSAGEs_BLOCK).isDisplayed(), "Messages Page is not displayed, Login failed.");
+    }
+
+    @AfterMethod
+    public void quit() {
+        driver.quit();
     }
 }
