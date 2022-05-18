@@ -24,23 +24,21 @@ public class YandexTest {
     @Test
     public void loginTest() throws InterruptedException {
         driver.get("https://mail.yandex.com/");
-        WebElement loginButton = driver.findElement(Locators.LOGIN_BUTTON);
-        Assert.assertTrue(loginButton.isDisplayed(), "Start Page is not displayed");
+        Assert.assertTrue(driver.findElement(Locators.START_PAGE).isDisplayed(), "Start Page is not displayed");
 
-        loginButton.click();
-        WebElement loginField = driver.findElement(Locators.LOGIN_FIELD);
-        Assert.assertTrue(loginField.isDisplayed(), "Login Page is not displayed");
+        driver.findElement(Locators.LOGIN_BUTTON).click();
+        Assert.assertTrue(driver.findElement(Locators.LOGIN_PAGE).isDisplayed(), "Login Page is not displayed");
 
-        loginField.sendKeys(LOGIN);
+        driver.findElement(Locators.LOGIN_FIELD).sendKeys(LOGIN);
         driver.findElement(Locators.PROCEED_BUTTON).click();
         pause(1);
         WebElement passwordField = driver.findElement(Locators.PASSWORD_FIELD);
-        Assert.assertTrue(passwordField.isDisplayed(), "Page with Password Field is not displayed");
+        Assert.assertTrue(passwordField.isDisplayed(), "Password Field is not displayed");
 
         passwordField.sendKeys(PASSWORD);
         driver.findElement(Locators.PROCEED_BUTTON).click();
         pause(3);
-        Assert.assertTrue(driver.findElement(Locators.MESSAGEs_BLOCK).isDisplayed(), "Messages Page is not displayed, Login failed.");
+        Assert.assertTrue(driver.findElement(Locators.MESSAGE_BLOCK).isDisplayed(), "Messages Page is not displayed, Login failed.");
     }
 
     @AfterMethod
