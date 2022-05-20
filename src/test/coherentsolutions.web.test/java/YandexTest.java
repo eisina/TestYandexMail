@@ -11,19 +11,19 @@ import org.testng.annotations.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import static Managers.WebDriverManager.quitDriver;
 import static Utils.PauseUtils.pause;
 
 public class YandexTest {
 
     private WebDriver driver;
-    private Logger log;
+    private static Logger log = LogManager.getLogger();;
     private PropertiesUtils propertiesUtils;
 
     @BeforeClass
     public void addSettings() throws FileNotFoundException {
         driver = WebDriverManager.initDriver();
         propertiesUtils = new PropertiesUtils();
-        log = LogManager.getLogger();
     }
 
     @Test(description = "Checking login with valid credentials")
@@ -52,6 +52,6 @@ public class YandexTest {
 
     @AfterClass
     public void quit() {
-        driver.quit();
+        quitDriver();
     }
 }

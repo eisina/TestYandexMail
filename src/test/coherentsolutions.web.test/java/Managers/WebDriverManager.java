@@ -12,4 +12,8 @@ public class WebDriverManager {
         driver.manage().window().maximize();
         return driver;
     }
+
+    public static void quitDriver() {
+        driver.quit();
+    }
 }
