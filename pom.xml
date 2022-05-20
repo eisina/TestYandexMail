@@ -23,20 +23,31 @@
     <properties>
         <testng.version>7.4.0</testng.version>
         <selenium.version>4.1.4</selenium.version>
+        <log4j.core.version>2.17.2</log4j.core.version>
+        <log4j.api.version>2.17.2</log4j.api.version>
     </properties>
 
-
     <dependencies>
-    <dependency>
-        <groupId>org.testng</groupId>
-        <artifactId>testng</artifactId>
-        <version>${testng.version}</version>
-        <scope>test</scope>
-    </dependency>
-    <dependency>
-        <groupId>org.seleniumhq.selenium</groupId>
-        <artifactId>selenium-java</artifactId>
-        <version>${selenium.version}</version>
-    </dependency>
-</dependencies>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>${testng.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>${selenium.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4j.api.version}</version>
+        </dependency>
+    </dependencies>
 </project>
