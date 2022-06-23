@@ -13,6 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.Duration;
 import static Managers.WebDriverManager.quitDriver;
+import static Utils.ConstantUtils.YANDEX_LOGIN_PAGE_URL;
 import static Utils.PauseUtils.pause;
 
 public class YandexTest {
@@ -38,7 +39,7 @@ public class YandexTest {
 
     @Test(description = "Checking login with valid credentials", dataProvider = "credentials")
     public void loginTest(String login, String password) throws InterruptedException {
-        driver.get("https://mail.yandex.com/");
+        driver.get(YANDEX_LOGIN_PAGE_URL);
         Assert.assertTrue(driver.findElement(Locators.START_PAGE).isDisplayed(), "Start Page is not displayed");
         log.info("Start Page opened");
 
@@ -58,7 +59,7 @@ public class YandexTest {
 
         passwordField.sendKeys(password);
         driver.findElement(Locators.PROCEED_BUTTON).click();
-        webDriverWait.pollingEvery(Duration.ofSeconds(5))
+        webDriverWait.pollingEvery(Duration.ofSeconds(1))
                 .until(ExpectedConditions.presenceOfElementLocated(Locators.USER_NAME));
         pause(3);
         Assert.assertTrue(driver.findElement(Locators.MESSAGE_BLOCK).isDisplayed(),
@@ -70,7 +71,10 @@ public class YandexTest {
         Assert.assertTrue(driver.findElement(Locators.PASSWORD_FIELD).isDisplayed(),
                 "Login Page is opened, user is logged out.");
         log.info("User logged out successfully");
+    }
 
+    @AfterMethod
+    public void afterMethod() {
         driver.manage().deleteAllCookies();
     }
 

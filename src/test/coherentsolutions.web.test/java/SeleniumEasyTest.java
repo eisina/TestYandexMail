@@ -21,6 +21,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static Managers.WebDriverManager.quitDriver;
+import static Utils.ConstantUtils.*;
 
 public class SeleniumEasyTest {
 
@@ -36,7 +37,7 @@ public class SeleniumEasyTest {
 
     @Test(description = "Checking selecting multiselect option")
     public void multiselectTest() {
-        driver.get("https://demo.seleniumeasy.com/basic-select-dropdown-demo.html");
+        driver.get(MULTISELECT_PAGE_URL);
         List<WebElement> multiSelectOptions = driver.findElements(Locators.MULTI_SELECT_OPTIONS);
         for (WebElement option : multiSelectOptions) {
             option.click();
@@ -51,7 +52,7 @@ public class SeleniumEasyTest {
 
     @Test(description = "Checking acceptingJava Script Confirm Box")
     public void confirmBoxAcceptTest() {
-        driver.get("https://demo.seleniumeasy.com/javascript-alert-box-demo.html");
+        driver.get(CONFIRM_BOX_PAGE_URL);
         driver.findElement(Locators.CONFIRM_BOX_BUTTON).click();
         log.info("Button pressed");
 
@@ -70,7 +71,7 @@ public class SeleniumEasyTest {
 
     @Test(description = "Checking cancelling Java Script Confirm Box")
     public void confirmBoxCancelTest() {
-        driver.get("https://demo.seleniumeasy.com/javascript-alert-box-demo.html");
+        driver.get(CONFIRM_BOX_PAGE_URL);
         driver.findElement(Locators.CONFIRM_BOX_BUTTON).click();
         log.info("Button pressed");
 
@@ -88,7 +89,7 @@ public class SeleniumEasyTest {
 
     @Test(description = "Checking Java Script Alert Box")
     public void alertBoxTest() {
-        driver.get("https://demo.seleniumeasy.com/javascript-alert-box-demo.html");
+        driver.get(CONFIRM_BOX_PAGE_URL);
         driver.findElement(Locators.ALERT_BOX_BUTTON).click();
         log.info("Button pressed");
 
@@ -107,19 +108,19 @@ public class SeleniumEasyTest {
 
     @Test(description = "Checking waiting fot the user to appear")
     public void waitForUserTest() {
-        driver.get("https://demo.seleniumeasy.com/dynamic-data-loading-demo.html");
+        driver.get(DATA_LOADING_PAGE_URL);
         driver.findElement(Locators.GET_NEW_USER_BUTTON).click();
-        webDriverWait.pollingEvery(Duration.ofSeconds(3)).until(ExpectedConditions.elementToBeClickable(Locators.USER_IMAGE));
+        webDriverWait.pollingEvery(Duration.ofMillis(800)).until(ExpectedConditions.elementToBeClickable(Locators.USER_IMAGE));
         Assert.assertTrue(driver.findElement(Locators.USER_IMAGE).isDisplayed(), "User is displayed");
         log.info("User appeared");
     }
 
     @Test(description = "Checking refreshing the page when download percentage >50")
     public void refreshDownloadTest() {
-        driver.get("https://demo.seleniumeasy.com/bootstrap-download-progress-demo.html");
+        driver.get(DOWNLOAD_PAGE_URL);
         driver.findElement(Locators.DOWNLOAD_BUTTON).click();
         while (Integer.parseInt(driver.findElement(Locators.PERCENT_CIRCLE).getText().replace("%", "")) < 50) {
-            webDriverWait.withTimeout(Duration.ofSeconds(10));
+            webDriverWait.withTimeout(Duration.ofSeconds(1));
         }
         driver.navigate().refresh();
         log.info("Page refreshed");
@@ -137,9 +138,10 @@ public class SeleniumEasyTest {
     @Test(description = "Get records with definite Age and Salary", dataProvider = "Age and Salary")
     public void returnEmployeeTest(int targetAge, int targetSalary) {
 
-        driver.get("https://demo.seleniumeasy.com/table-sort-search-demo.html");
+        driver.get(TABLE_PAGE_URL);
         Select elementNumber = new Select(driver.findElement(Locators.SHOW_ENTRIES_DROPDOWN));
         elementNumber.selectByValue("10");
+        Assert.assertEquals(elementNumber.getFirstSelectedOption().getText(), "10", "Option 10 is not selected");
         log.info("Option '10' is selected in dropdown “Show () entries”");
 
         List<Employee> selectedEmployeesList = new ArrayList<>();
@@ -151,12 +153,15 @@ public class SeleniumEasyTest {
                     .forEach(i -> {
                         String ageText = getCellValue(driver, "Age", i);
                         int age = Integer.valueOf(ageText);
+
                         String salaryText = getCellValue(driver, "Salary", i);
                         int salary = parsePrice(salaryText);
+
                         if (age > targetAge & salary > targetSalary) {
                             String name = getCellValue(driver, "Name", i);
                             String position = getCellValue(driver, "Position", i);
                             String office = getCellValue(driver, "Office", i);
+
                             Employee employee = new Employee(name, position, office);
                             selectedEmployeesList.add(employee);
                             log.info("Employee match the criteria");
