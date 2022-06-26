@@ -21,3 +21,4 @@ public class PropertiesUtils {
         return properties.getProperty(propertyName);
     }
 }
+
