@@ -7,10 +7,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public class MailPage {
-
-    WebDriver driver;
-    WebDriverWait webDriverWait;
+public class MailPage extends BasePage {
 
     private By settingsButton = By.className("user-account_left-name");
 
@@ -18,9 +15,8 @@ public class MailPage {
 
     private By logOutButton = By.xpath("//span[text()='Log out']");
 
-    public MailPage(WebDriver driver, WebDriverWait webDriverWait) {
-        this.driver = driver;
-        this.webDriverWait = webDriverWait;
+    public MailPage() {
+        super();
     }
 
     public void clickSettings() {

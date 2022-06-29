@@ -25,19 +25,17 @@ public class YandexTest {
     private WebDriver driver;
     private static Logger log = LogManager.getLogger();
     private PropertiesUtils propertiesUtils;
-    private WebDriverWait webDriverWait;
 
     @BeforeClass
     public void addSettings() throws FileNotFoundException {
         driver = WebDriverManager.initDriver();
         propertiesUtils = new PropertiesUtils();
-        webDriverWait = new WebDriverWait(driver, Duration.ofSeconds(5));
     }
 
     @Test(description = "Checking login and log out with valid credentials")
     public void loginTest() throws IOException, InterruptedException {
         driver.get(YANDEX_LOGIN_PAGE_URL);
-        StartPage startPage = new StartPage(driver, webDriverWait);
+        StartPage startPage = new StartPage();
         Assert.assertTrue(startPage.pageLoaded(), "Start Page is not displayed");
         log.info("Start Page opened");
 
