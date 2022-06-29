@@ -1,9 +1,11 @@
 package Pages;
 
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
@@ -18,33 +20,33 @@ public class LoginPage extends BasePage {
     @FindBy(id = "passp-field-passwd")
     private WebElement passwordFideld;
 
-    public LoginPage() {
-        super();
-        PageFactory.initElements(driver, this);
+    public LoginPage(WebDriver driver, WebDriverWait webDriverWait) {
+        super(driver, webDriverWait);
     }
 
     public MailPage enterLogin(String login) {
         loginField.sendKeys(login);
-        return new MailPage();
+        return new MailPage(driver, webDriverWait);
     }
 
     public MailPage clickLogin() {
         proceedButton.click();
-        return new MailPage();
+        return new MailPage(driver, webDriverWait);
     }
 
-    public boolean passwordFieldDisplayed() {
+    public boolean isPasswordFieldDisplayed() {
         webDriverWait.pollingEvery(Duration.ofSeconds(3))
                 .until(ExpectedConditions.visibilityOf(passwordFideld));
         return passwordFideld.isDisplayed();
     }
 
-    public boolean loginFieldDisplayed() {
+    public boolean isLoginFieldDisplayed() {
         return loginField.isDisplayed();
     }
 
-    public void enterPassword(String password) {
+    public LoginPage enterPassword(String password) {
         passwordFideld.sendKeys(password);
+        return this;
     }
 
 }

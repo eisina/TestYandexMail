@@ -1,9 +1,10 @@
 package Pages;
 
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
@@ -18,20 +19,21 @@ public class MailPage extends BasePage {
     @FindBy(xpath = "//span[text()='Log out']")
     private WebElement logOutButton;
 
-    public MailPage() {
-        super();
-        PageFactory.initElements(driver, this);
+    public MailPage(WebDriver driver, WebDriverWait webDriverWait) {
+        super(driver, webDriverWait);
     }
 
-    public void clickSettings() {
+    public MailPage clickSettings() {
         settingsButton.click();
+        return this;
     }
 
-    public void logOut() {
+    public MailPage logOut() {
         logOutButton.click();
+        return this;
     }
 
-    public boolean usernameDisplay() {
+    public boolean isUsernameDisplay() {
         webDriverWait.pollingEvery(Duration.ofSeconds(1)).until(ExpectedConditions.visibilityOf(userName));
         return userName.isDisplayed();
     }
