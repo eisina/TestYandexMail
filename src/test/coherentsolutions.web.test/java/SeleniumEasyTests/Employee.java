@@ -1,3 +1,5 @@
+package SeleniumEasyTests;
+
 public class Employee {
 
     private String name;
