@@ -10,13 +10,13 @@ import java.time.Duration;
 public class MailPage extends BasePage {
 
     @FindBy(className = "user-account_left-name")
-    WebElement settingsButton;
+    private WebElement settingsButton;
 
     @FindBy(xpath = "//div/../a[contains(@class, 'legouser')]/span[contains(@class, 'user-account__name')]")
-    WebElement userName;
+    private WebElement userName;
 
     @FindBy(xpath = "//span[text()='Log out']")
-    WebElement logOutButton;
+    private WebElement logOutButton;
 
     public MailPage() {
         super();

@@ -7,10 +7,10 @@ import org.openqa.selenium.support.PageFactory;
 public class StartPage extends BasePage {
 
     @FindBy(className = "HeadBanner-Inner")
-    WebElement centralSection;
+    private WebElement centralSection;
 
     @FindBy(xpath = "(//span[contains(text(),\"Log in\")]/ancestor::a)[1]")
-    WebElement loginButton;
+    private WebElement loginButton;
 
     public StartPage() {
         super();
