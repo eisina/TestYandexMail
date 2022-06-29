@@ -15,19 +15,21 @@ public class MailPage extends BasePage {
 
     private By logOutButton = By.xpath("//span[text()='Log out']");
 
-    public MailPage() {
-        super();
+    public MailPage(WebDriver driver, WebDriverWait webDriverWait) {
+        super(driver, webDriverWait);
     }
 
-    public void clickSettings() {
+    public MailPage clickSettings() {
         driver.findElement(settingsButton).click();
+        return this;
     }
 
-    public void logOut() {
+    public MailPage logOut() {
         driver.findElement(logOutButton).click();
+        return this;
     }
 
-    public boolean usernameDisplay() {
+    public boolean isUsernameDisplay() {
         webDriverWait.pollingEvery(Duration.ofSeconds(1)).until(ExpectedConditions.presenceOfElementLocated(userName));
         return driver.findElement(userName).isDisplayed();
     }

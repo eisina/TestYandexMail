@@ -12,8 +12,8 @@ public class BasePage {
     protected WebDriver driver;
     protected WebDriverWait webDriverWait;
 
-    public BasePage() {
-        this.driver = initDriver();
-        webDriverWait = new WebDriverWait(driver, Duration.ofSeconds(7));
+    public BasePage(WebDriver driver, WebDriverWait webDriverWait) {
+        this.driver = driver;
+        this.webDriverWait = webDriverWait;
     }
 }

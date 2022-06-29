@@ -25,38 +25,39 @@ public class YandexTest {
     private WebDriver driver;
     private static Logger log = LogManager.getLogger();
     private PropertiesUtils propertiesUtils;
+    private WebDriverWait webDriverWait;
 
     @BeforeClass
     public void addSettings() throws FileNotFoundException {
         driver = WebDriverManager.initDriver();
         propertiesUtils = new PropertiesUtils();
+        webDriverWait = new WebDriverWait(driver, Duration.ofSeconds(7));
     }
 
     @Test(description = "Checking login and log out with valid credentials")
     public void loginTest() throws IOException, InterruptedException {
         driver.get(YANDEX_LOGIN_PAGE_URL);
-        StartPage startPage = new StartPage();
-        Assert.assertTrue(startPage.pageLoaded(), "Start Page is not displayed");
+        StartPage startPage = new StartPage(driver, webDriverWait);
+        Assert.assertTrue(startPage.isPageLoaded(), "Start Page is not displayed");
         log.info("Start Page opened");
 
         LoginPage loginPage = startPage.clickLoginButton();
-        Assert.assertTrue(loginPage.loginFieldDisplayed(), "Login Page is not displayed");
+        Assert.assertTrue(loginPage.isLoginFieldDisplayed(), "Login Page is not displayed");
         log.info("Login Page opened");
 
         loginPage.enterLogin(propertiesUtils.getProperty("user1"));
         loginPage.clickLogin();
-        Assert.assertTrue(loginPage.passwordFieldDisplayed(), "Password Field is not displayed");
+        Assert.assertTrue(loginPage.isPasswordFieldDisplayed(), "Password Field is not displayed");
         log.info("Password Field appeared");
 
         loginPage.enterPassword(propertiesUtils.getProperty("password1"));
         MailPage mailPage = loginPage.clickLogin();
-        Assert.assertTrue(mailPage.usernameDisplay(), "Messages Page is not displayed, Login failed.");
+        Assert.assertTrue(mailPage.isUsernameDisplay(), "Messages Page is not displayed, Login failed.");
         log.info("User logged in successfully");
 
-        pause(3);
         mailPage.clickSettings();
         mailPage.logOut();
-        Assert.assertTrue(loginPage.passwordFieldDisplayed(), "Login Page is opened, user is logged out.");
+        Assert.assertTrue(loginPage.isPasswordFieldDisplayed(), "Login Page is opened, user is logged out.");
         log.info("User logged out successfully");
     }
 
