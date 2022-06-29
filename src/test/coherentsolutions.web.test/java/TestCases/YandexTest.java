@@ -31,14 +31,8 @@ public class YandexTest {
         propertiesUtils = new PropertiesUtils();
     }
 
-    @DataProvider(name = "credentials")
-    public Object[][] dpMethod() throws IOException {
-        return new Object[][]{{propertiesUtils.getProperty("user2"), propertiesUtils.getProperty("password2")},
-                {propertiesUtils.getProperty("user1"), propertiesUtils.getProperty("password1")}};
-    }
-
-    @Test(description = "Checking login with valid credentials", dataProvider = "credentials")
-    public void loginTest1(String login, String password) throws InterruptedException {
+    @Test(description = "Checking login and log out with valid credentials")
+    public void loginTest() throws IOException, InterruptedException {
         initDriver().get(YANDEX_LOGIN_PAGE_URL);
         StartPage startPage = new StartPage();
         Assert.assertTrue(startPage.pageLoaded(), "Start Page is not displayed");
@@ -48,12 +42,12 @@ public class YandexTest {
         Assert.assertTrue(loginPage.loginFieldDisplayed(), "Login Page is not displayed");
         log.info("Login Page opened");
 
-        loginPage.enterLogin(login);
+        loginPage.enterLogin(propertiesUtils.getProperty("user1"));
         loginPage.clickLogin();
         Assert.assertTrue(loginPage.passwordFieldDisplayed(), "Password Field is not displayed");
         log.info("Password Field appeared");
 
-        loginPage.enterPassword(password);
+        loginPage.enterPassword(propertiesUtils.getProperty("password1"));
         MailPage mailPage = loginPage.clickLogin();
         Assert.assertTrue(mailPage.usernameDisplay(), "Messages Page is not displayed, Login failed.");
         log.info("User logged in successfully");
