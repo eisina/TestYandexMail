@@ -1,3 +1,5 @@
+package SeleniumEasyTests;
+
 import Locators.Locators;
 import Managers.WebDriverManager;
 import org.apache.logging.log4j.LogManager;
