@@ -26,6 +26,7 @@
         <log4j.core.version>2.17.2</log4j.core.version>
         <log4j.api.version>2.17.2</log4j.api.version>
         <org.slf4j>1.7.36</org.slf4j>
+        <commonsIo>2.11.0</commonsIo>
     </properties>
 
     <dependencies>
@@ -54,6 +55,11 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>${org.slf4j}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commonsIo}</version>
         </dependency>
     </dependencies>
 </project>

@@ -1,3 +1,5 @@
+package TestCases;
+
 import Locators.Locators;
 import Managers.WebDriverManager;
 import org.apache.logging.log4j.LogManager;
@@ -13,6 +15,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
 import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -164,7 +167,7 @@ public class SeleniumEasyTest {
 
                             Employee employee = new Employee(name, position, office);
                             selectedEmployeesList.add(employee);
-                            log.info("Employee match the criteria");
+                            log.info("TestCases.Employee match the criteria");
                         }
                     });
             if ((driver.findElements(Locators.NEXT_DISABLED_BUTTON)).size() < 1) {
