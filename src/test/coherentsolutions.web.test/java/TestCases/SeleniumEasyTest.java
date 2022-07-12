@@ -2,20 +2,20 @@ package TestCases;
 
 import Locators.Locators;
 import Managers.WebDriverManager;
+import io.qameta.allure.Attachment;
+import io.qameta.allure.Description;
+import io.qameta.allure.Feature;
+import io.qameta.allure.TmsLink;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
-
+import org.testng.ITestResult;
+import org.testng.annotations.*;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -38,7 +38,10 @@ public class SeleniumEasyTest {
         webDriverWait = new WebDriverWait(driver, Duration.ofSeconds(5));
     }
 
-    @Test(description = "Checking selecting multiselect option")
+    @Test
+    @Description("Checking selecting multiselect option")
+    @Feature("Multi Select Option")
+    @TmsLink("123")
     public void multiselectTest() {
         driver.get(MULTISELECT_PAGE_URL);
         List<WebElement> multiSelectOptions = driver.findElements(Locators.MULTI_SELECT_OPTIONS);
@@ -53,7 +56,10 @@ public class SeleniumEasyTest {
         }
     }
 
-    @Test(description = "Checking acceptingJava Script Confirm Box")
+    @Test
+    @Description("Checking acceptingJava Script Confirm Box")
+    @Feature("Confirm Box")
+    @TmsLink("234")
     public void confirmBoxAcceptTest() {
         driver.get(CONFIRM_BOX_PAGE_URL);
         driver.findElement(Locators.CONFIRM_BOX_BUTTON).click();
@@ -72,7 +78,10 @@ public class SeleniumEasyTest {
     }
 
 
-    @Test(description = "Checking cancelling Java Script Confirm Box")
+    @Test
+    @Description("Checking cancelling Java Script Confirm Box")
+    @Feature("Confirm Box")
+    @TmsLink("345")
     public void confirmBoxCancelTest() {
         driver.get(CONFIRM_BOX_PAGE_URL);
         driver.findElement(Locators.CONFIRM_BOX_BUTTON).click();
@@ -90,7 +99,10 @@ public class SeleniumEasyTest {
         log.info("Alert dismissed");
     }
 
-    @Test(description = "Checking Java Script Alert Box")
+    @Test
+    @Description("Checking Java Script Alert Box")
+    @Feature("Alert Box")
+    @TmsLink("456")
     public void alertBoxTest() {
         driver.get(CONFIRM_BOX_PAGE_URL);
         driver.findElement(Locators.ALERT_BOX_BUTTON).click();
@@ -109,7 +121,10 @@ public class SeleniumEasyTest {
         log.info("Text entered and alert closed");
     }
 
-    @Test(description = "Checking waiting fot the user to appear")
+    @Test
+    @Description("Checking waiting fot the user to appear")
+    @Feature("Wait Test")
+    @TmsLink("567")
     public void waitForUserTest() {
         driver.get(DATA_LOADING_PAGE_URL);
         driver.findElement(Locators.GET_NEW_USER_BUTTON).click();
@@ -118,7 +133,10 @@ public class SeleniumEasyTest {
         log.info("User appeared");
     }
 
-    @Test(description = "Checking refreshing the page when download percentage >50")
+    @Test
+    @Description("Checking refreshing the page when download percentage >50")
+    @Feature("Wait Test")
+    @TmsLink("678")
     public void refreshDownloadTest() {
         driver.get(DOWNLOAD_PAGE_URL);
         driver.findElement(Locators.DOWNLOAD_BUTTON).click();
@@ -138,7 +156,10 @@ public class SeleniumEasyTest {
         return new Object[][]{{60, 10000}};
     }
 
-    @Test(description = "Get records with definite Age and Salary", dataProvider = "Age and Salary")
+    @Test(dataProvider = "Age and Salary")
+    @Description("Get records with definite Age and Salary")
+    @Feature("Script")
+    @TmsLink("890")
     public void returnEmployeeTest(int targetAge, int targetSalary) {
 
         driver.get(TABLE_PAGE_URL);
@@ -181,6 +202,29 @@ public class SeleniumEasyTest {
         Stream<Employee> stream = selectedEmployeesList.stream();
         stream.forEach(e -> System.out.println(e.toString()));
         Assert.assertTrue(selectedEmployeesList.size() > 0, "No values match the criteria");
+    }
+
+    @Attachment
+    public byte[] saveFailureScreenShot(WebDriver driver) {
+        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+    }
+
+    @Attachment
+    public String getBrowserDetails() {
+        Capabilities cap = ((RemoteWebDriver) driver).getCapabilities();
+        String browserName = cap.getBrowserName().toLowerCase();
+        String os = cap.getPlatform().toString();
+        String version = cap.getVersion().toString();
+        return browserName + " " + os + " " + version;
+    }
+
+    @AfterMethod
+    protected void addFailInfo(ITestResult result) throws IOException {
+        if (!result.isSuccess()) {
+            saveFailureScreenShot(driver);
+            getBrowserDetails();
+        }
+
     }
 
     @AfterClass
